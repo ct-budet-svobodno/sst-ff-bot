@@ -27,7 +27,9 @@ def admin_start_keyboard():
         [InlineKeyboardButton(text="Контакты", callback_data="contacts_pressed")],
         [InlineKeyboardButton(text="Найти активиста", callback_data="search_pressed")],
         [InlineKeyboardButton(text="Мой рейтинг", callback_data="raiting_pressed")],
-        # [InlineKeyboardButton(text="Добавить активиста", callback_data="add_act_pressed")],
+        [InlineKeyboardButton(text="Добавить активиста", callback_data="add_act_pressed")],
+        [InlineKeyboardButton(text="Удалить активиста", callback_data="delete_pressed")],
+        [InlineKeyboardButton(text="Сменить дайджест", callback_data="change_digest_pressed")],
         [InlineKeyboardButton(text="Список активистов с баллами и ачивками", callback_data="show_ak_pressed")],
         [InlineKeyboardButton(text="Прочая админская магия", callback_data="admin_pressed")]
     ]
@@ -41,11 +43,27 @@ def return_to_start():
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard
 
+def return_or_continue():
+    buttons = [
+        [InlineKeyboardButton(text="↩️ Вернуться к стартовому меню", callback_data="start_pressed")],
+        [InlineKeyboardButton(text="Ввести UID", callback_data="continue_pressed")]
+    ]
+    keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
+    return keyboard
+
 def admin_keyboard():
     buttons = [
         [InlineKeyboardButton(text="Изменить баллы активиста", callback_data="change_score_pressed")],
         [InlineKeyboardButton(text="Добавить ачивку или косяк активисту", callback_data="add_ak_pressed")],
         [InlineKeyboardButton(text="Узнать баллы и ачивки активиста", callback_data="info_score_pressed")]
+    ]
+    keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
+    return keyboard
+
+def assurance():
+    buttons = [
+        [InlineKeyboardButton(text="Да", callback_data="final_stage_pressed")],
+        [InlineKeyboardButton(text="Нет", callback_data="start_pressed")]
     ]
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard

@@ -16,6 +16,9 @@ from handlers.contacts import contact_router
 from handlers.admin_rights import admin_router
 from handlers.show_ak import show_ak_router
 from handlers.search import search_router
+from handlers.add_act import adact_router
+from handlers.delete import delete_router
+from handlers.change_digest import change_digest_router
 
 
 logging.basicConfig(level=logging.INFO)
@@ -34,15 +37,24 @@ dp.include_router(contact_router)
 dp.include_router(admin_router)
 dp.include_router(show_ak_router)
 dp.include_router(search_router)
+dp.include_router(adact_router)
+dp.include_router(delete_router)
+dp.include_router(change_digest_router)
 
 async def main():
-    await create_db()
-    count = await is_table_empty()
-    if count == 0:
-        print(f'БД: {count}')
-        await import_users()
-    await dp.start_polling(bot)
-    print("Бот запущен")
+    try:
+        await create_db()
+        count = await is_table_empty()
+        if count == 0:
+            print(f'БД: {count}')
+            await import_users()
+        await dp.start_polling(bot)
+        print("Бот запущен")
+    finally:
+        await bot.session.close()
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except (KeyboardInterrupt, SystemExit):
+        print("Бот остановлен вручную.")

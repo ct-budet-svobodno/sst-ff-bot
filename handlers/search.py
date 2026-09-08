@@ -13,9 +13,9 @@ class Search_steps(StatesGroup):
     tgid = State()
 
 def generate_report(user):
-    if len(user.station) < 2:
+    if user.station == None or len(user.station) < 2:
         user.station = "нет информации"
-    if len(user.number) < 2:
+    if user.number == None or len(user.number) < 2:
         user.number = "нет информации" 
     report = (
             f"🦊<u><b>{user.name}</b></u>\n"

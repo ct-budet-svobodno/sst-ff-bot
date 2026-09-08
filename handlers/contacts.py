@@ -21,20 +21,20 @@ async def generate_post(session):
     current_chunk = "📋 <u>КОНТАКТНАЯ ИНФОРМАЦИЯ</u>\n\n"
     
     for idx, user in enumerate(all_activists, start=1):
-        if len(user.station) < 2:
+        if user.station==None or len(user.station) < 2:
             user.station = "нет информации"
-        if len(user.number) < 2:
+        if user.number == None or len(user.number) < 2:
             user.number = "нет информации"
         user_line = (
             f"{idx}. <b>{user.name}</b>\n"
-            f"   ├ Статус: `{user.status}`\n"
-            f"   ├ Telegram ID: `{user.telegram_id}`\n"
-            f"   ├ Дата рождения: `{user.birthday[:11]}`\n"
-            f"   ├ Группа: `{user.student_group}`\n"
-            f"   ├ Телефон: `{user.number}`\n"
-            f"   ├ Почта: `{user.email}`\n"
-            f"   ├ Номер студенческого: `{user.studak}`\n"
-            f"   ├ Другие подразделения: `{user.others}`\n"
+            f"   ├ Статус: {user.status}\n"
+            f"   ├ Telegram ID: {user.telegram_id}\n"
+            f"   ├ Дата рождения: {user.birthday[:11]}\n"
+            f"   ├ Группа: {user.student_group}\n"
+            f"   ├ Телефон: {user.number}\n"
+            f"   ├ Почта: {user.email}\n"
+            f"   ├ Номер студенческого: {user.studak}\n"
+            f"   ├ Другие подразделения: {user.others}\n"
             f"   └ Метро: {user.station}\n\n"
         )
             

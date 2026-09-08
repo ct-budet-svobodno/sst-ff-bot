@@ -5,23 +5,47 @@ from .models import Activist
 async def add_activist(session, na, st, tgid, bd, sg, nu, em, stu, ot):
     stmt = select(Activist).where(Activist.telegram_id == tgid)
     result = await session.execute(stmt)
-    user_already_exists = result.scalar_one_or_none() is not None
-
-    if not user_already_exists:
-        new_user = Activist(telegram_id=tgid, 
-                            name=na, 
-                            status=st,
+    user = result.scalar_one_or_none()
+    print(f'!!!{tgid}, type: {type(tgid)}')
+    if user is None:
+        new_user = Activist(name=na, 
                             birthday=bd,
                             student_group=sg,
                             number=nu,
                             email=em,
                             studak=stu,
-                            others=ot)
+                            others=ot,
+                            telegram_id=tgid,
+                            status=st,
+                            score=0
+                            )
         session.add(new_user)
         await session.flush()
         await session.commit()
         await session.refresh(new_user)
-    return user_already_exists
+        return user
+    else:
+        return None
+async def get_rate(session, telegram_id: str):
+    stmt = select(Activist).where(Activist.telegram_id == telegram_id)
+    result = await session.execute(stmt)
+    user = result.scalar_one_or_none()
+    if user is not None:
+        return user
+    else:
+        return None
+
+async def delete_activist(session, tgid):
+    stmt = select(Activist).where(Activist.telegram_id == tgid)
+    result = await session.execute(stmt)
+    user = result.scalar_one_or_none()
+    print(f'!!!{tgid}, type: {type(tgid)}')
+    if user is not None:
+        await session.delete(user)
+        await session.commit()
+        return True
+    else:
+        return False
 
 async def get_rate(session, telegram_id: str):
     stmt = select(Activist).where(Activist.telegram_id == telegram_id)
